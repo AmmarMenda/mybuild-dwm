@@ -8,26 +8,11 @@ for pid in $(pidof -x dynamicwall.sh); do
      fi
 done
 
-#Enter the wallpaper directory
 cd "$HOME/Pictures/papes"
-
-#Get the names of all the pics in the directory
-wallpapers=($(ls))
-
-#get the absolute paths of the pics
-for pic in "${wallpapers[@]}"
- do
- :
- wallpath+=($(readlink -f $pic))
-done
-
+file_count=$(ls|wc -l)
 while true; do
-
- for p in "${wallpath[@]}"
-  do
-  :
-  feh --bg-fill $p
-  sleep 10s
- done
-
+ran=$((RANDOM % file_count+1))
+  ran_file=$(ls|awk '{if(NR=='$ran') print $0}')
+  feh --bg-fill "$ran_file"
+  sleep 20
 done
